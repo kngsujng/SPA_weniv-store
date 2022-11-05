@@ -1,3 +1,5 @@
+import { ProductCard } from "../components/Product/index.js";
+
 class ProductPage {
     constructor(){
         this.mainElement = document.createElement("main");
@@ -18,26 +20,28 @@ class ProductPage {
         console.log(this.product);
 
         this.mainElement.classList.add("product");
-        this.mainElement.innerHTML = `
-            <h1 class="ir">상품목록 페이지</h1>
-            <ul class="product-list"></ul>
-        `
-        const productList = this.mainElement.querySelector(".product-list");
+        
+        const productPageHeader = document.createElement("h1");
+        productPageHeader.innertText = "상품목록 페이지";
+        this.mainElement.appendChild(productPageHeader);
+
+        const productList = document.createElement("ul");
+        
+        // this.mainElement.innerHTML = `
+        //     <h1 class="ir">상품목록 페이지</h1>
+        //     <ul class="product-list"></ul>
+        // `
+        // const productList = this.mainElement.querySelector(".product-list");
+
         this.product.forEach(item => {
-            const productDetailLink = document.createElement("a");
-            productDetailLink.innerHTML = `
-                <li class="product-item">
-                    <div class="product-img"> 
-                        <img src="http://test.api.weniv.co.kr/${item.thumbnailImg}" alt="상품이미지">
-                    </div> 
-                    <strong class="product-name">${item.productName}</strong>
-                    <div>
-                        <strong class="price m-price">${item.price}<span>원</span></strong>
-                    </div>
-                </li>
-            `
-            productList.appendChild(productDetailLink);
+            const productItem = document.createElement("li");
+            const productCard = new ProductCard(item);  
+            productItem.appendChild(productCard.render());
+            productList.appendChild(productItem);
         })
+        // components > product > productItem.js로 옮겨갔다 
+
+        this.mainElement.append(productList);
         console.log(this.mainElement);
     }
 
